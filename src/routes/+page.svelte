@@ -1,10 +1,10 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { rando } from '$lib/utils';
-	import cardsData from '$lib/cards.json';
+	import { randomBooster } from '$lib/utils';
+	import cardsData from '$lib/cards.json' with { type: 'json' };
 
-	let allCards: { image: string }[] = [];
-	let randomCards: { image: string }[] = [];
+	let allCards: { images: { large: string } }[] = [];
+	let randomCards: { images: { large: string } }[] = [];
 
 	// Vérifie si les données sont bien un tableau
 	console.log('cardsData:', cardsData);
@@ -13,8 +13,10 @@
 	onMount(() => {
 		if (Array.isArray(cardsData)) {
 			allCards = cardsData.map((card) => ({
-				image: card.images.large
+				images: card.images
 			}));
+
+			console.log({ 'All Cards:': allCards }, { 'Random Cards:': randomCards });
 		} else {
 			console.error("cardsData n'est pas un tableau", cardsData);
 		}
@@ -22,7 +24,7 @@
 
 	// Fonction pour tirer 5 cartes aléatoires
 	const pickRandomCards = () => {
-		randomCards = rando(allCards, 5);
+		randomCards = randomBooster(allCards, 5);
 	};
 </script>
 
@@ -33,7 +35,7 @@
 		<div class="booster">
 			{#each randomCards as card}
 				<div class="card">
-					<img src={card.image} alt={card.name} />
+					<img src={card.images.large} alt="card" />
 				</div>
 			{/each}
 		</div>
@@ -41,14 +43,13 @@
 </main>
 
 <style>
-	:global(body) {
-		background-color: #3b4cca;
-	}
-
 	main {
 		margin: 0 auto;
 		padding: 20px;
 		text-align: center;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
 	}
 
 	.booster {
@@ -61,7 +62,13 @@
 		height: auto;
 		border-radius: 12px;
 		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+		transition: transform 0.3s ease-out;
 	}
+
+	img:hover {
+		transform: scale(1.1);
+	}
+
 	button {
 		margin: auto;
 		align-items: center;
