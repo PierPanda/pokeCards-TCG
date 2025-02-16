@@ -39,17 +39,18 @@
 				</div>
 			{/each}
 		</div>
+		<button onclick={() => (randomCards = [])} class="clear-btn">Clear</button>
 	{/if}
 </main>
 
 <style>
 	main {
-		margin: 0 auto;
 		padding: 20px;
 		text-align: center;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+		gap: 3rem;
 	}
 
 	.booster {
@@ -70,7 +71,6 @@
 	}
 
 	button {
-		margin: auto;
 		align-items: center;
 		background-color: #fee6e3;
 		border: 2px solid #111;

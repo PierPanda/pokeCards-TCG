@@ -6,6 +6,7 @@
 
 <main>
 	<h1>Cartes Pokémon</h1>
+
 	<ul>
 		{#each pokemonCards as card}
 			<li>

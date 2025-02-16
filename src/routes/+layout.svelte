@@ -23,7 +23,6 @@
 
 <style>
 	:global(body) {
-		width: 100vw;
 		background-color: #3b4cca;
 	}
 	nav {
