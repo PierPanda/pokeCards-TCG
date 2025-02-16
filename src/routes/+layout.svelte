@@ -8,10 +8,10 @@
 	<ul>
 		<li><a href="/" class:current={pathname === '/'}>Accueil</a></li>
 		<li>
-			<a href="/deck" class:current={pathname === '/deck'}>Deck</a>
+			<a href="/cards" class:current={pathname === '/cards'}>Cartes</a>
 		</li>
 		<li>
-			<a href="/cards" class:current={pathname === '/cards'}>Cartes</a>
+			<a href="/deck" class:current={pathname === '/deck'}>Deck</a>
 		</li>
 		<li><a href="/profil" class:current={pathname === '/profil'}>Profil</a></li>
 	</ul>
