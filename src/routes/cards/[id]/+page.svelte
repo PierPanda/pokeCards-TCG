@@ -1,20 +1,19 @@
 <script lang="ts">
 	import Card from '$lib/components/Card.svelte';
-	import { CardResumeModel } from '@tcgdex/sdk';
 	const { data } = $props();
-	const { name, id } = data;
+	const { name, id, isInCollection } = data;
 	const image = data.images.large;
-	console.log(image);
 </script>
 
 <main>
-	<Card {name} {id} src={image} />
+	<Card {name} {id} src={image} {isInCollection} />
 </main>
 
 <style>
 	main {
 		margin: 0 auto;
 		display: flex;
+		flex-direction: column;
 		justify-self: center;
 		align-items: center;
 		padding: 20px;

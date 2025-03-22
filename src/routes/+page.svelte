@@ -2,29 +2,47 @@
 	import { onMount } from 'svelte';
 	import { randomBooster } from '$lib/utils';
 	import cardsData from '$lib/cards.json' with { type: 'json' };
+	import type { PokemonCard } from '$lib/types/cards';
 
-	let allCards: { images: { large: string } }[] = [];
-	let randomCards: { images: { large: string } }[] = [];
+	let allCards: PokemonCard[] = [];
+	let randomCards: PokemonCard[] = [];
+	let saveStatus = '';
 
-	// Vérifie si les données sont bien un tableau
-	console.log('cardsData:', cardsData);
-
-	// Charger les cartes
 	onMount(() => {
 		if (Array.isArray(cardsData)) {
-			allCards = cardsData.map((card) => ({
-				images: card.images
-			}));
-
+			allCards = cardsData;
 			console.log({ 'All Cards:': allCards }, { 'Random Cards:': randomCards });
 		} else {
 			console.error("cardsData n'est pas un tableau", cardsData);
 		}
 	});
 
-	// Fonction pour tirer 5 cartes aléatoires
 	const pickRandomCards = () => {
 		randomCards = randomBooster(allCards, 5);
+	};
+
+	const saveToCollection = async () => {
+		try {
+			const response = await fetch('/api/collection', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(randomCards)
+			});
+
+			if (response.ok) {
+				saveStatus = 'Cartes sauvegardées avec succès !';
+				setTimeout(() => {
+					saveStatus = '';
+				}, 3000);
+			} else {
+				throw new Error('Erreur lors de la sauvegarde');
+			}
+		} catch (error) {
+			console.error('Erreur:', error);
+			saveStatus = 'Erreur lors de la sauvegarde des cartes';
+		}
 	};
 </script>
 
@@ -39,7 +57,13 @@
 				</div>
 			{/each}
 		</div>
-		<button onclick={() => (randomCards = [])} class="clear-btn">Clear</button>
+		<div class="actions">
+			<button onclick={saveToCollection} class="save-btn">Save</button>
+			<button onclick={() => (randomCards = [])} class="clear-btn">Clear</button>
+		</div>
+		{#if saveStatus}
+			<div class="status-message">{saveStatus}</div>
+		{/if}
 	{/if}
 </main>
 
@@ -126,5 +150,20 @@
 		button {
 			padding: 0 40px;
 		}
+	}
+
+	.actions {
+		display: flex;
+		gap: 1rem;
+		margin-top: 1rem;
+	}
+
+	.status-message {
+		margin-top: 1rem;
+		padding: 0.5rem;
+		border-radius: 4px;
+		background-color: #4caf50;
+		color: white;
+		text-align: center;
 	}
 </style>
