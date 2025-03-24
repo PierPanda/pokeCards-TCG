@@ -184,5 +184,188 @@
       "small": "https://images.pokemontcg.io/base1/78.png",
       "large": "https://images.pokemontcg.io/base1/78_hires.png"
     }
+  },
+  {
+    "id": 80,
+    "name": "Defender",
+    "supertype": "Trainer",
+    "images": {
+      "small": "https://images.pokemontcg.io/base1/80.png",
+      "large": "https://images.pokemontcg.io/base1/80_hires.png"
+    }
+  },
+  {
+    "id": 41,
+    "name": "Seel",
+    "supertype": "Pokémon",
+    "subtypes": [
+      "Basic"
+    ],
+    "level": 12,
+    "hp": "60",
+    "types": [
+      "Water"
+    ],
+    "attacks": [
+      {
+        "name": "Headbutt",
+        "cost": [
+          "Water"
+        ],
+        "convertedEnergyCost": 1,
+        "damage": "10",
+        "text": ""
+      }
+    ],
+    "weaknesses": [
+      {
+        "type": "Lightning",
+        "value": "×2"
+      }
+    ],
+    "images": {
+      "small": "https://images.pokemontcg.io/base1/41.png",
+      "large": "https://images.pokemontcg.io/base1/41_hires.png"
+    }
+  },
+  {
+    "id": 32,
+    "name": "Kadabra",
+    "supertype": "Pokémon",
+    "subtypes": [
+      "Stage 1"
+    ],
+    "level": 38,
+    "hp": "60",
+    "types": [
+      "Psychic"
+    ],
+    "evolvesFrom": "Abra",
+    "attacks": [
+      {
+        "name": "Recover",
+        "cost": [
+          "Psychic",
+          "Psychic"
+        ],
+        "convertedEnergyCost": 2,
+        "damage": "0",
+        "text": "Discard 1 Psychic Energy card attached to Kadabra in order to use this attack. Remove all damage counters from Kadabra."
+      },
+      {
+        "name": "Super Psy",
+        "cost": [
+          "Psychic",
+          "Psychic",
+          "Colorless"
+        ],
+        "convertedEnergyCost": 3,
+        "damage": "50",
+        "text": ""
+      }
+    ],
+    "weaknesses": [
+      {
+        "type": "Psychic",
+        "value": "×2"
+      }
+    ],
+    "images": {
+      "small": "https://images.pokemontcg.io/base1/32.png",
+      "large": "https://images.pokemontcg.io/base1/32_hires.png"
+    }
+  },
+  {
+    "id": 12,
+    "name": "Ninetales",
+    "supertype": "Pokémon",
+    "subtypes": [
+      "Stage 1"
+    ],
+    "level": 32,
+    "hp": "80",
+    "types": [
+      "Fire"
+    ],
+    "evolvesFrom": "Vulpix",
+    "attacks": [
+      {
+        "name": "Lure",
+        "cost": [
+          "Colorless",
+          "Colorless"
+        ],
+        "convertedEnergyCost": 2,
+        "damage": "0",
+        "text": "If your opponent has any Benched Pokémon, choose 1 of them and switch it with his or her Active Pokémon."
+      },
+      {
+        "name": "Fire Blast",
+        "cost": [
+          "Fire",
+          "Fire",
+          "Fire",
+          "Fire"
+        ],
+        "convertedEnergyCost": 4,
+        "damage": "80",
+        "text": "Discard 1 Fire Energy card attached to Ninetales in order to use this attack."
+      }
+    ],
+    "weaknesses": [
+      {
+        "type": "Water",
+        "value": "×2"
+      }
+    ],
+    "images": {
+      "small": "https://images.pokemontcg.io/base1/12.png",
+      "large": "https://images.pokemontcg.io/base1/12_hires.png"
+    }
+  },
+  {
+    "id": 15,
+    "name": "Venusaur",
+    "supertype": "Pokémon",
+    "subtypes": [
+      "Stage 2"
+    ],
+    "level": 67,
+    "hp": "100",
+    "types": [
+      "Grass"
+    ],
+    "evolvesFrom": "Ivysaur",
+    "abilities": [
+      {
+        "name": "Energy Trans",
+        "text": "As often as you like during your turn (before your attack), you may take 1 Grass Energy card attached to 1 of your Pokémon and attach it to a different one. This power can't be used if Venusaur is Asleep, Confused, or Paralyzed.",
+        "type": "Pokémon Power"
+      }
+    ],
+    "attacks": [
+      {
+        "name": "Solarbeam",
+        "cost": [
+          "Grass",
+          "Grass",
+          "Grass",
+          "Grass"
+        ],
+        "convertedEnergyCost": 4,
+        "damage": "60",
+        "text": ""
+      }
+    ],
+    "weaknesses": [
+      {
+        "type": "Fire",
+        "value": "×2"
+      }
+    ],
+    "images": {
+      "small": "https://images.pokemontcg.io/base1/15.png",
+      "large": "https://images.pokemontcg.io/base1/15_hires.png"
+    }
   }
 ]
