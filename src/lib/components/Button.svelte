@@ -8,7 +8,6 @@
 	export let tabindex: number = 0;
 	export let customClass: string = '';
 
-	// Gestion des événements clavier pour l'accessibilité
 	function handleKeydown(event: KeyboardEvent) {
 		if (event.key === 'Enter' || event.key === ' ') {
 			event.preventDefault();

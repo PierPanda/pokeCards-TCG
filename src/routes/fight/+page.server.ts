@@ -5,8 +5,7 @@ import { prepareCombatCards } from '$lib/server/fight';
 
 export const load: PageServerLoad = async ({ fetch }) => {
 	try {
-		// Récupération des cartes de l'utilisateur
-		const userDeckResponse = await fetch('/api/user-deck');
+		const userDeckResponse = await fetch('/api/collection');
 
 		if (!userDeckResponse.ok) {
 			throw new Error('Erreur de chargement du deck utilisateur');
@@ -20,7 +19,6 @@ export const load: PageServerLoad = async ({ fetch }) => {
 
 		console.log(`Nombre de cartes dans le deck de l'utilisateur: ${userDeck.length}`);
 
-		// Préparation des cartes pour le combat
 		const { userCards, opponent } = prepareCombatCards(userDeck);
 
 		if (userCards.length === 0) {

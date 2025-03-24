@@ -1,7 +1,6 @@
 <script lang="ts">
 	import Button from '$lib/components/Button.svelte';
 
-	// Définir ProcessedPokemonCard localement si non disponible
 	interface ProcessedPokemonCard {
 		id: string;
 		name: string;
@@ -20,7 +19,6 @@
 		[key: string]: any;
 	}
 
-	// Modifier l'interface pour correspondre aux attaques de ProcessedPokemonCard
 	interface Attack {
 		name: string;
 		damage: number | null;
@@ -29,40 +27,35 @@
 		convertedEnergyCost?: number;
 	}
 
-	// Utiliser la syntaxe simple export let pour éviter les erreurs
 	export let data;
 
 	let userCards: ProcessedPokemonCard[] = [];
 	let opponent: ProcessedPokemonCard | null = null;
 
-	// Vérifier si data est défini et extraire ses propriétés
 	if (data) {
 		userCards = data.userCards || [];
 		opponent = data.opponent || null;
 	}
 
-	// États du jeu
 	let selectedCard: ProcessedPokemonCard | null = null;
 	let combatStarted = false;
 	let playerHP = 0;
 	let opponentHP = 0;
 	let gameLog: string[] = [];
 
-	// États spécifiques au système de pièce
 	let currentTurn = 'player'; // 'player' ou 'opponent'
 	let coinFlipActive = false;
 	let canAttack = false;
 	let canDefend = false;
-	let coinResult = ''; // 'face' ou 'pile'
+	let coinResult = '';
 	let selectedAttack: Attack | null = null;
 	let gameOver = false;
 	let winner = '';
 
-	// Ajouter pour les animations
 	let isFlipping = false;
 	let isAttacking = false;
 	let isDefending = false;
-	let lastAction = ''; // Pour savoir qui a agi en dernier
+	let lastAction = '';
 
 	function selectCard(card: ProcessedPokemonCard) {
 		selectedCard = card;
@@ -78,7 +71,6 @@
 		currentTurn = 'player';
 		updateGameLog("Le combat commence ! C'est à votre tour.");
 
-		// Activer le lancer de pièce pour le joueur
 		coinFlipActive = true;
 		canAttack = false;
 
@@ -109,16 +101,13 @@
 	}
 
 	function updateGameLog(message: string) {
-		// Remplacer le gameLog par un seul message au lieu d'ajouter
 		gameLog = [message];
 	}
 
 	function flipCoin() {
 		animateCoinFlip();
 
-		// Attendre la fin de l'animation pour continuer la logique
 		setTimeout(() => {
-			// Simuler un lancer de pièce (50% chance pour chaque résultat)
 			const isHeads = Math.random() < 0.5;
 			coinResult = isHeads ? 'face' : 'pile';
 
@@ -135,34 +124,27 @@
 					updateGameLog('Vous ne pouvez pas attaquer.');
 					coinFlipActive = false;
 
-					// Passer au tour de l'adversaire automatiquement
 					setTimeout(() => {
 						currentTurn = 'opponent';
 						updateGameLog("C'est au tour de l'adversaire.");
-						// L'adversaire lance la pièce automatiquement
 						opponentFlipCoin();
 					}, 1500);
 				}
 			} else if (currentTurn === 'defense' && selectedAttack) {
-				// Le joueur a attaqué, l'adversaire essaie de parer
 				if (coinResult === 'face') {
 					canDefend = true;
 					updateGameLog(`L'adversaire pare votre attaque ${selectedAttack.name}.`);
 					animateDefense(false);
 
-					// Réinitialiser pour le prochain tour
 					selectedAttack = null;
 
-					// Passer au tour de l'adversaire
 					setTimeout(() => {
 						currentTurn = 'opponent';
 						updateGameLog("C'est au tour de l'adversaire.");
-						// L'adversaire lance la pièce automatiquement
 						opponentFlipCoin();
 					}, 1500);
 				} else {
 					canDefend = false;
-					// Utiliser directement le damage comme nombre ou valeur par défaut
 					const damage = selectedAttack.damage || 10;
 					opponentHP = Math.max(0, opponentHP - damage);
 					updateGameLog(
@@ -170,7 +152,6 @@
 					);
 					animateAttack(true);
 
-					// Vérifier si l'adversaire est K.O.
 					if (opponentHP <= 0) {
 						gameOver = true;
 						winner = 'player';
@@ -178,19 +159,16 @@
 						return;
 					}
 
-					// Réinitialiser pour le prochain tour
 					selectedAttack = null;
 
-					// Passer au tour de l'adversaire
 					setTimeout(() => {
 						currentTurn = 'opponent';
 						updateGameLog("C'est au tour de l'adversaire.");
-						// L'adversaire lance la pièce automatiquement
 						opponentFlipCoin();
 					}, 1500);
 				}
 			}
-		}, 1000); // Attendre que l'animation de la pièce soit finie
+		}, 1000);
 	}
 
 	function selectAttack(attack: Attack) {
@@ -199,14 +177,12 @@
 		selectedAttack = attack;
 		updateGameLog(`Vous choisissez l'attaque: ${attack.name}`);
 
-		// L'adversaire doit maintenant lancer la pièce pour essayer de parer
 		coinFlipActive = true;
 		currentTurn = 'defense';
 
 		setTimeout(() => {
 			updateGameLog("L'adversaire tente de parer...");
 
-			// Simuler un lancer de pièce pour l'adversaire (50% chance pour chaque résultat)
 			const isHeads = Math.random() < 0.5;
 			coinResult = isHeads ? 'face' : 'pile';
 
@@ -214,23 +190,18 @@
 				updateGameLog(`L'adversaire lance la pièce et obtient ${coinResult.toUpperCase()}`);
 
 				if (coinResult === 'face') {
-					// L'adversaire pare l'attaque
 					setTimeout(() => {
 						updateGameLog(`L'adversaire pare votre attaque ${attack.name}.`);
 
-						// Réinitialiser pour le prochain tour
 						selectedAttack = null;
 
-						// Passer au tour de l'adversaire après un court délai
 						setTimeout(() => {
 							currentTurn = 'opponent';
 							updateGameLog("C'est au tour de l'adversaire.");
-							// L'adversaire lance la pièce automatiquement
 							opponentFlipCoin();
 						}, 1500);
 					}, 1000);
 				} else {
-					// L'attaque réussit
 					const damage = attack.damage || 10;
 					opponentHP = Math.max(0, opponentHP - damage);
 
@@ -240,7 +211,6 @@
 						);
 						animateAttack(true);
 
-						// Vérifier si l'adversaire est K.O.
 						if (opponentHP <= 0) {
 							gameOver = true;
 							winner = 'player';
@@ -248,14 +218,11 @@
 							return;
 						}
 
-						// Réinitialiser pour le prochain tour
 						selectedAttack = null;
 
-						// Passer au tour de l'adversaire après un court délai
 						setTimeout(() => {
 							currentTurn = 'opponent';
 							updateGameLog("C'est au tour de l'adversaire.");
-							// L'adversaire lance la pièce automatiquement
 							opponentFlipCoin();
 						}, 1500);
 					}, 1000);
@@ -267,20 +234,16 @@
 	function opponentFlipCoin() {
 		animateCoinFlip();
 
-		// Attendre la fin de l'animation pour continuer la logique
 		setTimeout(() => {
-			// Simuler un lancer de pièce pour l'ordinateur
 			const isHeads = Math.random() < 0.5;
 			coinResult = isHeads ? 'face' : 'pile';
 
 			updateGameLog(`L'adversaire lance la pièce et obtient ${coinResult.toUpperCase()}`);
 
 			if (coinResult === 'face') {
-				// L'ordinateur peut attaquer
 				setTimeout(() => {
 					updateGameLog("L'adversaire peut attaquer !");
 
-					// Sélectionner une attaque aléatoire
 					const availableAttacks = opponent?.attacks || [];
 					if (availableAttacks.length > 0) {
 						const randomAttack =
@@ -289,7 +252,6 @@
 						setTimeout(() => {
 							updateGameLog(`L'adversaire utilise ${randomAttack.name} !`);
 
-							// Le joueur doit se défendre
 							setTimeout(() => {
 								currentTurn = 'player-defense';
 								updateGameLog('Lancez la pièce pour essayer de vous défendre !');
@@ -298,7 +260,6 @@
 						}, 1000);
 					} else {
 						updateGameLog("L'adversaire n'a pas d'attaques disponibles.");
-						// Passer au tour du joueur automatiquement
 						setTimeout(() => {
 							currentTurn = 'player';
 							updateGameLog("C'est à votre tour. Lancez la pièce pour attaquer !");
@@ -307,11 +268,9 @@
 					}
 				}, 1000);
 			} else {
-				// L'ordinateur ne peut pas attaquer
 				setTimeout(() => {
 					updateGameLog("L'adversaire ne peut pas attaquer !");
 
-					// Passer au tour du joueur automatiquement
 					setTimeout(() => {
 						currentTurn = 'player';
 						updateGameLog("C'est à votre tour. Lancez la pièce pour attaquer !");
@@ -319,29 +278,25 @@
 					}, 1500);
 				}, 1000);
 			}
-		}, 1000); // Attendre que l'animation de la pièce soit finie
+		}, 1000);
 	}
 
 	function playerDefenseCoinFlip() {
 		animateCoinFlip();
 
-		// Attendre la fin de l'animation pour continuer la logique
 		setTimeout(() => {
-			// Simuler un lancer de pièce
 			const isHeads = Math.random() < 0.5;
 			coinResult = isHeads ? 'face' : 'pile';
 
 			updateGameLog(`Vous lancez la pièce et obtenez ${coinResult.toUpperCase()}`);
 
 			if (coinResult === 'face') {
-				// Le joueur se défend avec succès
 				setTimeout(() => {
 					updateGameLog("Vous avez paré l'attaque avec succès !");
 					animateDefense(true);
 
 					coinFlipActive = false;
 
-					// Passer au tour du joueur après un court délai
 					setTimeout(() => {
 						currentTurn = 'player';
 						updateGameLog("C'est à votre tour. Lancez la pièce pour attaquer !");
@@ -349,8 +304,6 @@
 					}, 1500);
 				}, 1000);
 			} else {
-				// L'attaque de l'ordinateur réussit
-				// Choisir une attaque aléatoire pour l'adversaire
 				const availableAttacks = opponent?.attacks || [];
 				if (availableAttacks.length > 0) {
 					const randomAttack =
@@ -364,7 +317,6 @@
 						);
 						animateAttack(false);
 
-						// Vérifier si le joueur est K.O.
 						if (playerHP <= 0) {
 							gameOver = true;
 							winner = 'opponent';
@@ -374,7 +326,6 @@
 
 						coinFlipActive = false;
 
-						// Passer au tour du joueur après un court délai
 						setTimeout(() => {
 							currentTurn = 'player';
 							updateGameLog("C'est à votre tour. Lancez la pièce pour attaquer !");
@@ -383,7 +334,7 @@
 					}, 1000);
 				}
 			}
-		}, 1000); // Attendre que l'animation de la pièce soit finie
+		}, 1000);
 	}
 
 	function backToSelection() {
@@ -430,6 +381,9 @@
 	{#if !combatStarted}
 		<div class="card-selection fade-in">
 			<h2>Choisissez votre Pokémon</h2>
+			{#if selectedCard}
+				<Button type="action" onClick={startCombat} label="Combattre !" />
+			{/if}
 			<div class="card-grid">
 				{#if userCards && userCards.length > 0}
 					{#each userCards as card, index}
@@ -449,9 +403,6 @@
 				{/if}
 			</div>
 		</div>
-		{#if selectedCard}
-			<Button type="action" onClick={startCombat} label="Combattre !" />
-		{/if}
 	{:else}
 		<div class="battle-view">
 			<div class="player-side">

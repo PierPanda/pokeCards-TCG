@@ -1,4 +1,9 @@
 export interface PokemonCard {
+	abilities: string;
+	evolvesFrom: string;
+	level: string;
+	subtypes: string;
+	supertype: string;
 	id: string;
 	name: string;
 	hp: string;

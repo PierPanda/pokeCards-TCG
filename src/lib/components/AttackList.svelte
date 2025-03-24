@@ -10,7 +10,7 @@
 </script>
 
 <div class="attacks-container fade-in">
-	<p>Choisissez une attaque:</p>
+	<p>Choisissez votre attaque:</p>
 
 	{#if card.attacks && card.attacks.length > 0}
 		{#each card.attacks as attack}
